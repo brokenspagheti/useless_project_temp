@@ -48,12 +48,16 @@ For Software:
 
 # Installation
 git clone https://github.com/brokenspagheti/useless_project_temp.git
+
 cd Sezpad.xcodeproj
+
 open Sezpad.xcodeproj
 
 # Run
 In Xcode:
+
 ⌘R
+
 Requirements: macOS 13+, Xcode 15+. No Apple Developer account needed.
 
 ### Project Documentation
@@ -75,7 +79,8 @@ For Software:
 # Diagrams
 ![Flow diagram](docs/flow.jpeg)
 *Full data flow — from finger/keyboard input through the ViewModel to haptics, sound, and UI updates.*
-![File structure](docs/structure.jepg)
+
+![File structure](docs/structure.jpeg)
 *Repo structure — Models (rulebook), Services (workers), ViewModels (manager), Views (dashboard).*
 
 For Hardware:
@@ -90,7 +95,7 @@ Not applicable — no external hardware.
 
 ## Team Contributions
 - [Nikhil S Krishnan]: [Swift and Research]
-- [Mishal Biju]: [design]
+- [Mishal Biju]: [Design]
 
 
 ---
