@@ -95,7 +95,7 @@ Not applicable — no external hardware.
 
 ## Team Contributions
 - [Nikhil S Krishnan]: [Swift and Research]
-- [Mishal Biju]: [Design]
+- [Mishal Biju]: [Design and Swift]
 
 
 ---
