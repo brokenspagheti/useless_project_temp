@@ -89,7 +89,7 @@ Not applicable — no external hardware.
 
 ### Project Demo
 # Video
-<video src="https://github.com/brokenspagheti/useless_project_temp/blob/main/docs/demo.mp4" controls width="100%"></video>
+[![Watch Demo Video]](https://drive.google.com/file/d/1QVwFqLjDsw6G0fCajaDZ1Qn2xoeEmxol/view?usp=drivesdk)
 *Short handcam video recording: tapping 1–5 in rhythm, watching zones light up with sound + haptics firing.*
 
 
