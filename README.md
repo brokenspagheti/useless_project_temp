@@ -67,13 +67,13 @@ For Software:
 ![App-pic](docs/App-pic.jpeg)
 *Full view of the dashboard*
 
-![App-pic1](docs/App-pic.jpeg)
+![App-pic1](docs/App-pic1.jpeg)
 *Haptic on/off and Sound on/off options on the right side of the dashboard*
 
-![App-pic2](docs/App-pic.jpeg)
+![App-pic2](docs/App-pic2.jpeg)
 *Pressures and other indicators on the left side of the dashboard*
 
-![App-pic3](docs/App-pic.jpeg)
+![App-pic3](docs/App-pic3.jpeg)
 *All "zones" assembled*
 
 # Diagrams
