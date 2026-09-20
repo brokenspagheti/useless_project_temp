@@ -1,1 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sezpad — Build Journal</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    background: #f5f0e8;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 24px),
+      repeating-linear-gradient(90deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 24px);
+    color: #1a2332;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+    line-height: 1.7;
+  }
+  header {
+    border-bottom: 4px solid #1a2332;
+    padding-bottom: 20px;
+    margin-bottom: 40px;
+  }
+  h1 {
+    font-size: 2.8rem;
+    margin: 0;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  h1 .wave { color: #9b5ce0; }
+  .subtitle { color: #6b7280; margin-top: 12px; font-size: 0.95rem; }
 
+  h2 {
+    margin-top: 56px;
+    font-size: 1.4rem;
+    color: #1a2332;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  h2::before {
+    content: "▸";
+    color: #9b5ce0;
+    font-size: 1.6rem;
+  }
+
+  .hour {
+    background: #fff;
+    border: 2px solid #1a2332;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    box-shadow: 4px 4px 0 #1a2332;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .hour:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #1a2332; }
+
+  .stamp {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+  .stamp-bug { background: #ffe0e0; color: #c92a2a; }
+  .stamp-fix { background: #d3f9d8; color: #2b8a3e; }
+  .stamp-pivot { background: #fff3bf; color: #b8860b; }
+
+  code {
+    background: #f1f3f5;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #9b5ce0;
+    border: 1px solid #e0e0e0;
+  }
+
+  img, video {
+    max-width: 100%;
+    border-radius: 10px;
+    border: 2px solid #1a2332;
+    box-shadow: 4px 4px 0 #1a2332;
+    margin: 16px 0;
+    display: block;
+  }
+  .caption {
+    font-size: 0.85em;
+    color: #6b7280;
+    margin-top: -8px;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  ul { padding-left: 20px; }
+  li { margin-bottom: 10px; }
+  li::marker { color: #9b5ce0; font-weight: bold; }
+
+  a { color: #516fb3; text-decoration: underline wavy #9b5ce0 1px; }
+  a:hover { background: #fff3bf; }
+
+  .zone-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 24px 0 12px;
+    font-size: 0.75rem;
+    text-align: center;
+  }
+  .zone {
+    padding: 14px 4px;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    border: 2px solid #1a2332;
+    cursor: pointer;
+    transition: transform 0.1s, filter 0.1s;
+    user-select: none;
+  }
+  .zone:hover { filter: brightness(1.1); }
+  .zone.active {
+    transform: scale(1.08);
+    box-shadow: 0 0 0 3px #fff, 0 0 0 6px #1a2332;
+  }
+  .z1 { background: #6699e6; }
+  .z2 { background: #66d99a; }
+  .z3 { background: #9b5ce0; }
+  .z4 { background: #e6d966; color: #1a2332; }
+  .z5 { background: #e66680; grid-column: span 4; }
+
+  .play-hint {
+    text-align: center;
+    font-size: 0.8rem;
+    color: #6b7280;
+    margin-bottom: 24px;
+    font-style: italic;
+  }
+
+  .kbd {
+    display: inline-block;
+    background: #1a2332;
+    color: #f5f0e8;
+    padding: 1px 7px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    border-bottom: 3px solid #000;
+  }
+
+  footer {
+    margin-top: 80px;
+    padding-top: 24px;
+    border-top: 4px solid #1a2332;
+    text-align: center;
+    font-size: 0.85rem;
+    color: #6b7280;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1><span class="wave">~</span> Sezpad</h1>
+  <div class="subtitle">Build Journal · Best in the Biz (Nikhil + Mishal) · TinkerHub Useless Projects, Sept 2026</div>
+</header>
+
+<h2>Why we even started this</h2>
+<p>So basically, I was watching this <a href="https://www.youtube.com/watch?v=Q8bbXVRaYZk">Krish Shah video</a> where he's messing around with the MacBook trackpad as some kind of creative input device. And I'm sitting there thinking wait, this thing can be an instrument no?</p>
+<p>And the name Sezpad comes from <strong>"Sez on the Beat"</strong>. That was the first producer I actually knew by name when I started listening to DHH. Everyone knew the rapper, but Sez was the one whose name stuck in my head. So the whole thing is a small tribute to that.</p>
+
+<h2>Hour 0: The Idea</h2>
+<div class="hour">
+  <p>"What if my MacBook trackpad was a Fisher-Price xylophone for adults?"</p>
+  <p>That was it. That was the pitch. 5 zones, each one plays a sound, fires a haptic pulse, and lights up the screen. Useless? Yes. Beautiful? Also yes.</p>
+
+  <img src="docs/App-pic.jpeg" alt="Sezpad main UI">
+  <p class="caption">The final build — 5 zones, sidebar with live pressure, Sound/Haptics toggles.</p>
+
+  <div class="zone-grid" id="zoneGrid">
+    <div class="zone z1" data-key="1">1<br>Zone1</div>
+    <div class="zone z2" data-key="2">2<br>Zone2</div>
+    <div class="zone z3" data-key="3">3<br>Zone3</div>
+    <div class="zone z4" data-key="4">4<br>Zone4</div>
+    <div class="zone z5" data-key="5">5 / SPACE — Zone5</div>
+  </div>
+  <div class="play-hint">↑ try clicking these, or press 1–5 on your keyboard</div>
+</div>
+
+<h2>Hour 1: First wall — no raw trackpad data</h2>
+<div class="hour">
+  <p><span class="stamp stamp-bug">BUG</span> Turns out macOS doesn't give raw finger coordinates to regular apps. Public API (<code>NSEvent</code>) only gives you the cursor position — not where your finger actually is on the trackpad.</p>
+  <p>Spent almost an hour reading about some private framework called <code>MultitouchSupport</code> that <em>does</em> give per-finger data. But then it needs Input Monitoring permission, keeps breaking on macOS updates, and Apple will never allow it on the App Store.</p>
+  <p><span class="stamp stamp-pivot">PIVOT</span> Okay fine, use cursor position as a proxy. Fullscreen mode, cursor becomes the finger. Not perfect, but it works.</p>
+
+  <img src="docs/flow.jpeg" alt="Sezpad data flow diagram">
+  <p class="caption">How a keypress or touch becomes sound + vibration + a lit-up zone.</p>
+</div>
+
+<h2>Hour 3: The sandbox scene</h2>
+<div class="hour">
+  <p><span class="stamp stamp-bug">BUG</span> "Where did my sounds go?" The app was supposed to write to <code>~/Library/Application Support/Sezpad/Sounds/</code>, but the folder was just not there. Terminal also saying "No such file or directory." Full tension.</p>
+  <p>An hour of digging later — turns out App Sandbox silently redirects everything to <code>~/Library/Containers/com.dev.instruuu.Sezpad/Data/...</code>. The folder was there only, just hiding inside some deep path we didn't know about.</p>
+  <p><span class="stamp stamp-fix">FIX</span> Just bundle the sounds directly inside the app. No more Terminal, no more sandbox drama, done.</p>
+</div>
+
+<h2>Hour 6: The Xcode massacre</h2>
+<div class="hour">
+  <p><span class="stamp stamp-bug">BUG</span> "Cannot find 'Zone' in scope." All 12 Swift files were compiling fine an hour back. Suddenly they can't see each other.</p>
+  <p>Files had somehow ended up in <em>Copy Bundle Resources</em> instead of <em>Compile Sources</em>. Basically Xcode was trying to ship our source code like it's some JPEG image.</p>
+  <p><span class="stamp stamp-fix">FIX</span> Drag every <code>.swift</code> file back into Compile Sources. Rebuild. Sorted.</p>
+
+  <img src="docs/structure.jpeg" alt="Repo structure">
+  <p class="caption">Where everything lives — Models (rulebook), Services (workers), Views (dashboard).</p>
+</div>
+
+<h2>Hour 8: Adding the keyboard layer</h2>
+<div class="hour">
+  <p>The click-and-hold thing looks mad awkward on stage. You're dragging the cursor around hoping to hit the right zone while also trying to talk. Nobody's going to enjoy that. Thanks to the feedback from the TinkerHub college team members.</p>
+  <p><span class="stamp stamp-fix">FIX</span> Added a keyboard layer. <span class="kbd">1</span> through <span class="kbd">5</span> trigger zones directly. <span class="kbd">space</span>, <span class="kbd">←</span> <span class="kbd">↑</span> <span class="kbd">→</span> <span class="kbd">↓</span> also work. Now you can drum on the keys like a MIDI pad, screen lights up, everything sings. Much better.</p>
+
+  <img src="docs/App-pic1.jpeg" alt="Sezpad UI detail 1">
+  <p class="caption">Zone lighting up in real time as a key is pressed.</p>
+
+  <img src="docs/App-pic2.jpeg" alt="Sezpad UI detail 2">
+  <p class="caption">Sidebar showing the active zone, pressure bar, and note label.</p>
+</div>
+
+<h2>Hour 11: The win</h2>
+<div class="hour">
+  <p>Tapped <span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> <span class="kbd">4</span> <span class="kbd">5</span> in rhythm. Each zone lit up. Sound played. Haptic fired.</p>
+  <p>It was stupid. It was beautiful. Exactly what we promised.</p>
+
+  <img src="docs/App-pic3.jpeg" alt="Sezpad final state">
+  <p class="caption">The final build, mid-performance.</p>
+</div>
+
+<h2>Watch it in action</h2>
+<video controls>
+  <source src="docs/demo.mp4" type="video/mp4">
+  Your browser doesn't support embedded video.
+</video>
+<p class="caption">20-second screen capture — tapping 1–5 in rhythm, zones lighting up.</p>
+
+<h2>What we learned</h2>
+<ul>
+  <li>macOS deliberately hides raw trackpad data behind a private framework — privacy by design, painful by accident.</li>
+  <li>App Sandbox silently redirects file paths to <code>~/Library/Containers/</code>. Invisible until you go hunting for it.</li>
+  <li>Xcode's Build Phases are not optional magic. You need to actually know which files go where, otherwise the whole project goes blind.</li>
+  <li>Bundling assets inside the app is 10x easier than fighting the sandbox every single time.</li>
+  <li>Keyboard input is just a better demo trigger than trackpad dragging. Nobody wants to watch someone drag a cursor around on stage.</li>
+</ul>
+
+<h2>Who did what</h2>
+<ul>
+  <li><strong>Nikhil:</strong> Swift, research, haptic + audio integration, README, docs.</li>
+  <li><strong>Mishal:</strong> UI design, Swift, testing, keeping the demo flow sensible.</li>
+</ul>
+
+<footer>
+  <p>Built at <strong>TinkerHub Useless Projects, 2026</strong>.</p>
+  <p>Inspired by <a href="https://www.youtube.com/watch?v=Q8bbXVRaYZk">Krish Shah</a>. Named after Sez on the Beat.</p>
+  <p><em>Turn the trackpad into a toy — that's the whole point.</em></p>
+</footer>
+
+<script>
+  const zones = document.querySelectorAll('.zone');
+
+  function flashZone(zone) {
+    zone.classList.add('active');
+    setTimeout(() => zone.classList.remove('active'), 200);
+  }
+
+  zones.forEach(zone => {
+    zone.addEventListener('click', () => flashZone(zone));
+  });
+
+  document.addEventListener('keydown', (e) => {
+    const map = { '1': 'z1', '2': 'z2', '3': 'z3', '4': 'z4', '5': 'z5', ' ': 'z5' };
+    const cls = map[e.key];
+    if (!cls) return;
+    const el = document.querySelector('.' + cls);
+    if (el) {
+      e.preventDefault();
+      flashZone(el);
+    }
+  });
+</script>
+
+</body>
+</html>
