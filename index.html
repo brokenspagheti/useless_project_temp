@@ -102,7 +102,6 @@
   a { color: #516fb3; text-decoration: underline wavy #9b5ce0 1px; }
   a:hover { background: #fff3bf; }
 
-  /* ---- PLAYABLE ZONE GRID ---- */
   .zone-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -176,7 +175,9 @@
   <p>"What if my MacBook trackpad was a Fisher-Price xylophone for adults?"</p>
   <p>That was it. That was the pitch. 5 zones, each one plays a sound, fires a haptic pulse, and lights up the screen. Useless? Yes. Beautiful? Also yes.</p>
 
-  <!-- PLAYABLE PREVIEW -->
+  <img src="docs/App-pic.jpeg" alt="Sezpad main UI">
+  <p class="caption">The final build — 5 zones, sidebar with live pressure, Sound/Haptics toggles.</p>
+
   <div class="zone-grid" id="zoneGrid">
     <div class="zone z1" data-key="1">1<br>SUB</div>
     <div class="zone z2" data-key="2">2<br>PLUCK</div>
@@ -192,6 +193,9 @@
   <p><span class="stamp stamp-bug">BUG</span> Turns out macOS doesn't give raw finger coordinates to regular apps. Public API (<code>NSEvent</code>) only gives you the cursor position — not where your finger actually is on the trackpad.</p>
   <p>Spent almost an hour reading about some private framework called <code>MultitouchSupport</code> that <em>does</em> give per-finger data. But then it needs Input Monitoring permission, keeps breaking on macOS updates, and Apple will never allow it on the App Store.</p>
   <p><span class="stamp stamp-pivot">PIVOT</span> Okay fine, use cursor position as a proxy. Fullscreen mode, cursor becomes the finger. Not perfect, but it works.</p>
+
+  <img src="docs/flow.jpeg" alt="Sezpad data flow diagram">
+  <p class="caption">How a keypress or touch becomes sound + vibration + a lit-up zone.</p>
 </div>
 
 <h2>Hour 3: The sandbox scene</h2>
@@ -206,19 +210,38 @@
   <p><span class="stamp stamp-bug">BUG</span> "Cannot find 'Zone' in scope." All 12 Swift files were compiling fine an hour back. Suddenly they can't see each other.</p>
   <p>Files had somehow ended up in <em>Copy Bundle Resources</em> instead of <em>Compile Sources</em>. Basically Xcode was trying to ship our source code like it's some JPEG image.</p>
   <p><span class="stamp stamp-fix">FIX</span> Drag every <code>.swift</code> file back into Compile Sources. Rebuild. Sorted.</p>
+
+  <img src="docs/structure.jpeg" alt="Repo structure">
+  <p class="caption">Where everything lives — Models (rulebook), Services (workers), Views (dashboard).</p>
 </div>
 
 <h2>Hour 8: Adding the keyboard layer</h2>
 <div class="hour">
   <p>The click-and-hold thing looks mad awkward on stage. You're dragging the cursor around hoping to hit the right zone while also trying to talk. Nobody's going to enjoy that. Thanks to the feedback from the TinkerHub college team members.</p>
   <p><span class="stamp stamp-fix">FIX</span> Added a keyboard layer. <span class="kbd">1</span> through <span class="kbd">5</span> trigger zones directly. <span class="kbd">space</span>, <span class="kbd">←</span> <span class="kbd">↑</span> <span class="kbd">→</span> <span class="kbd">↓</span> also work. Now you can drum on the keys like a MIDI pad, screen lights up, everything sings. Much better.</p>
+
+  <img src="docs/App-pic1.jpeg" alt="Sezpad UI detail 1">
+  <p class="caption">Zone lighting up in real time as a key is pressed.</p>
+
+  <img src="docs/App-pic2.jpeg" alt="Sezpad UI detail 2">
+  <p class="caption">Sidebar showing the active zone, pressure bar, and note label.</p>
 </div>
 
 <h2>Hour 11: The win</h2>
 <div class="hour">
   <p>Tapped <span class="kbd">1</span> <span class="kbd">2</span> <span class="kbd">3</span> <span class="kbd">4</span> <span class="kbd">5</span> in rhythm. Each zone lit up. Sound played. Haptic fired.</p>
   <p>It was stupid. It was beautiful. Exactly what we promised.</p>
+
+  <img src="docs/App-pic3.jpeg" alt="Sezpad final state">
+  <p class="caption">The final build, mid-performance.</p>
 </div>
+
+<h2>Watch it in action</h2>
+<video controls>
+  <source src="docs/demo.mp4" type="video/mp4">
+  Your browser doesn't support embedded video.
+</video>
+<p class="caption">20-second screen capture — tapping 1–5 in rhythm, zones lighting up.</p>
 
 <h2>What we learned</h2>
 <ul>
@@ -242,7 +265,6 @@
 </footer>
 
 <script>
-  // Playful interactive zone preview
   const zones = document.querySelectorAll('.zone');
 
   function flashZone(zone) {
