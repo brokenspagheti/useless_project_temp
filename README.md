@@ -49,8 +49,7 @@ For Software:
 # Installation
 git clone https://github.com/brokenspagheti/useless_project_temp.git
 
-cd Sezpad.xcodeproj
-
+cd useless_project_temp
 open Sezpad.xcodeproj
 
 # Run
